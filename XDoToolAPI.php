@@ -80,4 +80,11 @@ class XDoToolAPI {
         self::run('mousemove --polar 0 0');
     }
 
+    /**
+     * Type some text
+     */
+    public static function type($text) {
+        self::run("type type --delay 253 --clearmodifiers '{$text}'");
+    }
+
 }
