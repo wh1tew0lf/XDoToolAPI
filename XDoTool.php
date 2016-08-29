@@ -90,7 +90,7 @@ class XDoTool {
      * @return XDoTool
      */
     public function mouseMove($x, $y) {
-        $this->_commands[] = 'mousemove_relative ' . $x . ' ' . $y;
+        $this->_commands[] = 'mousemove_relative -- ' . $x . ' ' . $y;
         return $this;
     }
 

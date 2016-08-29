@@ -60,7 +60,7 @@ class XDoToolAPI {
      * @param int $y y offset
      */
     public static function mouseMove($x, $y) {
-        self::run('mousemove_relative ' . $x . ' ' . $y);
+        self::run('mousemove_relative -- ' . $x . ' ' . $y);
     }
 
     /**
