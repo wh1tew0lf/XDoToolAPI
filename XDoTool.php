@@ -95,6 +95,13 @@ class XDoTool {
     }
 
     /**
+     * Restore mouse at previous position
+     */
+    public function mouseRestore() {
+        $this->_commands[] = 'mousemove "restore"';
+    }
+
+    /**
      * Mouse move relative in polar coordinates
      * @param int $angle
      * @param int $radius

@@ -64,6 +64,13 @@ class XDoToolAPI {
     }
 
     /**
+     * Restore mouse at previous position
+     */
+    public static function mouseRestore() {
+        self::run('mousemove "restore"');
+    }
+
+    /**
      * Mouse move relative in polar coordinates
      * @param int $angle
      * @param int $radius
