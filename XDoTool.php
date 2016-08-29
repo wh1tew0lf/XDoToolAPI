@@ -58,7 +58,7 @@ class XDoTool {
      * @return XDoTool
      */
     public function activateWindow($windowName) {
-        $this->_commands[] = 'search --onlyvisible --sync --name "' . $windowName . '" windowactivate';
+        $this->_commands[] = 'search --name "' . $windowName . '" windowactivate';
         return $this;
     }
 
@@ -90,7 +90,7 @@ class XDoTool {
      * @return XDoTool
      */
     public function mouseMove($x, $y) {
-        $this->_commands[] = 'mousemove_relative -- ' . $x . ' ' . $y;
+        $this->_commands[] = 'mousemove_relative ' . $x . ' ' . $y;
         return $this;
     }
 

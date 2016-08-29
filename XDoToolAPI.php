@@ -1,6 +1,5 @@
 <?php
 
-
 namespace wh1tew0lf;
 
 /**
@@ -35,7 +34,7 @@ class XDoToolAPI {
      * @param string $windowName
      */
     public static function activateWindow($windowName) {
-        self::run('search --onlyvisible --sync --name "' . $windowName . '" windowactivate');
+        self::run('search --name "' . $windowName . '" windowactivate');
     }
 
     /**
@@ -61,7 +60,7 @@ class XDoToolAPI {
      * @param int $y y offset
      */
     public static function mouseMove($x, $y) {
-        self::run('mousemove_relative -- ' . $x . ' ' . $y);
+        self::run('mousemove_relative ' . $x . ' ' . $y);
     }
 
     /**
