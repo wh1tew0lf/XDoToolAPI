@@ -4,7 +4,7 @@
 namespace wh1tew0lf;
 
 /**
- * Class XDoTool for simplify to work with xdotool from PHP
+ * Class XDoToolAPI PHP wrapper for xdotool version 3.20140217.1
  * @author Danil Volkov <vlkv.d.a@gmail.com>
  *
  * For more detailed help see man xdotool
@@ -13,21 +13,21 @@ namespace wh1tew0lf;
  * @method static string getWindowFocus()  Returns id of focused window like getActiveWindow()
  * @method static string getWindowName(string $windowID) Returns name by window id (get from getActiveWindow)
  * @method static string getWindowPid(string $windowID) Returns PID by window id (get from getActiveWindow) may be doesn't work
- * @method static array getWindowGeometry(string $windowID) @todo parse output, use --shell
- * @method static array getDisplayGeometry() @todo parse output, use --shell
+ * @method static array getWindowGeometry(string $windowID) Returns the geometry (location and position) of a window. The values include: x, y, width, height, and screen number
+ * @method static array getDisplayGeometry() Returns the screen resolution width and height
  * @method static array|string|int search (array $options, array $params) A powerful function for search window returns array of founded window ids
  * Available options for search method [class, classname, maxdepth=N, name, onlyvisible, pid=PID, screen=N, desktop=N, limit=N, title, all, any, sync]
  * @method static string selectWindow() Return window id after click on it @attention it is INTERACTIVE!
  * @method static array help() Shows all available methods
  * @method static string version() Returns version
- * @method static void behave (array $options = array(), array $params) fire command after some action
+ * @method static void behave (string $windowID, string $action, string $command) fire command after some action
  * action can be [mouse-enter, mouse-leave, mouse-click, focus, blur], in params should be <windowID> <action> <command>
- * @method static void behave_screen_edge (array $params, array $flags) Fire command after move mouse in screen edge [options] <edge> <command>
+ * @method static void behave_screen_edge(array $options, string $edge, string $command) Fire command after move mouse in screen edge [options] <edge> <command>
  * edges can be [left, top-left, top, top-right, right, bottom-left, bottom, bottom-right]
  * options can be [delay=MILLISECONDS, quiesce=MILLISECONDS]
  * @method static void click(array $options, int $button) Imitate mouse click
  * options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
- * @method static array getMouseLocation() @todo parse output, use --shell
+ * @method static array getMouseLocation() Outputs the x, y, screen, and window id of the mouse cursor
  * @method static void key(array $options, array|string $keystroke) Imitate keyboard click
  * options [clearmodifiers, delay=MILLISECONDS, window=ID]
  * @method static void keyDown(array $options, array|string $keystroke) Imitate only key down action
@@ -49,32 +49,32 @@ namespace wh1tew0lf;
  * options [sync]
  * @method static void windowFocus(array $options, string $windowID) Focus window
  * options [sync]
- * @method static void windowKill(array $options = array(), string $windowID) Kill a window. This action will destroy the window and kill the client controlling it
+ * @method static void windowKill(string $windowID) Kill a window. This action will destroy the window and kill the client controlling it
  * @method static void windowMap(array $options, string $windowID) Map a window. In X11 terminology, mapping a window means making it visible on the screen
  * options [sync]
  * @method static void windowMinimize(array $options, string $windowID) Minimize a window. In X11 terminology, this is called iconify
  * options [sync]
- * @method static void windowMove(array $options, array $params) Move the window to the given position in params [windowID, x, y]
+ * @method static void windowMove(array $options, array $params) Move the window to the given position in params [windowID, x, y] @todo if negative and relative?
  * optinos [sync, relative]
- * @method static void windowRaise(array $options = array(), string $windowID) Raise the window to the top of the stack. This may not work on all window managers
- * @method static void windowReParent(array $options = array(), array $windows) Reparent a window. This moves the source_window to be a child window of destination_window
+ * @method static void windowRaise(string $windowID) Raise the window to the top of the stack. This may not work on all window managers
+ * @method static void windowReParent(string $childWindowID, string $newParentWindowID) Reparent a window. This moves the source_window to be a child window of destination_window
  * $windows = [child windowID, new parent windowID]
  * @method static void windowSize(array $options, array $params) Set the window size of the given window in params [windowID, height, width]
  * optinos [usehints, sync]
  * @method static void windowUnMap(array $options, string $windowID) Unmap a window, making it no longer appear on your screen
  * options [sync]
- * @method static void set_num_desktops(array $options = array(), int $number) Changes the number of desktops or workspaces
+ * @method static void set_num_desktops(int $number) Changes the number of desktops or workspaces
  * @method static string get_num_desktops() Returns number of desktop
  * @method static void set_desktop(array $options, int $number) Change the current view to the specified desktop
  * options [relative]
  * @method static string get_desktop() Returns the current desktop in view
  * @method static void set_desktop_for_window(array $options, array $params) Move a window to a different desktop params [windowID, desctopnum]
  * @method static void get_desktop_for_window(array $options, string $windowID) Output the desktop currently containing the given window
- * @method static array get_desktop_viewport() @todo parse output, use --shell
+ * @method static array get_desktop_viewport() Report the current viewport's position
  * @method static void set_desktop_viewport(array $options, array $coordinates) Move the viewport to the given position $coordinates [x, y]
  * @method static void exec(array $options, string $command) Execute a program. This is often useful when combined with behave_screen_edge to do things like locking your screen
  * options [sync]
- * @method static void sleep(array $options = array(), int $seconds) Sleep for a specified period. Fractions of seconds (like 1.3, or 0.4) are valid, here
+ * @method static void sleep(int $seconds) Sleep for a specified period. Fractions of seconds (like 1.3, or 0.4) are valid, here
  */
 class XDoToolAPI {
     /**
@@ -89,6 +89,7 @@ class XDoToolAPI {
     //public static $lastOutput = array();
     private static $debug = true;
     private static $availableMethods = array();
+    private static $shellParse = array('getwindowgeometry', 'getdisplaygeometry', 'getmouselocation', 'get_desktop_viewport');
 
     /**
      * XDoToolAPI constructor. It is singleton
@@ -124,7 +125,6 @@ class XDoToolAPI {
             self::$availableMethods = array('help');
             self::updateAvailableMethods();
         } elseif (!in_array($name, self::$availableMethods)) {
-            var_dump(self::$availableMethods);
             throw new \Exception("Undefined method '{$name}'!");
         }
         $flags = $params = '';
@@ -142,19 +142,29 @@ class XDoToolAPI {
 
             }
             $flags = implode(' ', $flags);
+            array_shift($arguments);
         }
-        if (!empty($arguments[1])) {
-            $params = is_array($arguments[1]) ? implode(' ', $arguments[1]) : $arguments[1];
+        if (!empty($arguments)) {
+            $params = implode(' ', is_array($arguments[0]) ? $arguments[0] : $arguments);
             if ('mousemove_relative' == $name) {
                 $params = "-- {$params}";
             }
         }
 
-        echo "xdotool {$name} {$flags} {$params} " . (self::$debug ? '' : '2>/dev/null') . "\n";
-
+        $flags .= in_array($name, self::$shellParse) ? ' --shell' : '';
         exec("xdotool {$name} {$flags} {$params} " . (self::$debug ? '' : '2>/dev/null'), $output, $ret_val);
         if ($ret_val) {
             return (int)$ret_val;
+        }
+        if (in_array($name, self::$shellParse)) {
+            $parsedOutput = array();
+            foreach ($output as $line) {
+                $parts = explode('=', $line);
+                $key = array_shift($parts);
+                $value = array_pop($parts);
+                $parsedOutput[$key] = $value;
+            }
+            return $parsedOutput;
         }
         return (1 == count($output)) ? array_pop($output) : $output;
     }
