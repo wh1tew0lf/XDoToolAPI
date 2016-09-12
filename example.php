@@ -17,6 +17,7 @@ var_dump(\wh1tew0lf\XDoToolAPI::get_num_desktops());
 var_dump(\wh1tew0lf\XDoToolAPI::get_desktop());
 var_dump(\wh1tew0lf\XDoToolAPI::get_desktop_for_window($windowID));
 var_dump(\wh1tew0lf\XDoToolAPI::get_desktop_viewport());
+var_dump(\wh1tew0lf\XDoToolAPI::windowRaise($windowID));
 var_dump(\wh1tew0lf\XDoToolAPI::sleep(1.5));
 \wh1tew0lf\XDoToolAPI::windowKill($windowID);
 
