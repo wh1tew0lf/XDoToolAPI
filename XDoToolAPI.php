@@ -184,14 +184,14 @@ class XDoToolAPI {
     /**
      * Imitate left click
      */
-    public function leftClick() {
+    public static function leftClick() {
         self::click(self::MOUSE_LEFT_CLICK);
     }
 
     /**
      * Imitate right click
      */
-    public function rightClick() {
+    public static function rightClick() {
         self::click(self::MOUSE_RIGHT_CLICK);
     }
 
