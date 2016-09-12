@@ -36,9 +36,9 @@ namespace wh1tew0lf;
  * options [clearmodifiers, delay=MILLISECONDS, window=ID]
  * @method static void mouseDown(array $options, int $button) Imitate only mouse down action
  * options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
- * @method static void mouseMove(array $options, array|string $coordinates) Move mouse $coordinates = [x,y] or 'restore',
+ * @method static void mouseMove(array $options, int $x, int $y) Move mouse use [x,y] or 'restore',
  * options: [window=ID, polar, screen=SCREEN, clearmodifiers, sync]
- * @method static void mouseMove_relative(array $options, array|string $coordinates) Move the mouse x,y pixels relative to the current position of the mouse cursor
+ * @method static void mouseMove_relative(array $options, int $x, int $y) Move the mouse x,y pixels relative to the current position of the mouse cursor
  * options: [window=ID, polar, screen=SCREEN, clearmodifiers, sync]
  * @method static void mouseUp(array $options, int $button) Imitate only mouse up action options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
  * @method static void set_window(array $options, string $windowID) Set properties about a window
@@ -54,12 +54,12 @@ namespace wh1tew0lf;
  * options [sync]
  * @method static void windowMinimize(array $options, string $windowID) Minimize a window. In X11 terminology, this is called iconify
  * options [sync]
- * @method static void windowMove(array $options, array $params) Move the window to the given position in params [windowID, x, y] @todo if negative and relative?
+ * @method static void windowMove(array $options, string $windowID, int $x, int $y) Move the window to the given position
  * optinos [sync, relative]
  * @method static void windowRaise(string $windowID) Raise the window to the top of the stack. This may not work on all window managers
  * @method static void windowReParent(string $childWindowID, string $newParentWindowID) Reparent a window. This moves the source_window to be a child window of destination_window
  * $windows = [child windowID, new parent windowID]
- * @method static void windowSize(array $options, array $params) Set the window size of the given window in params [windowID, height, width]
+ * @method static void windowSize(array $options, string $windowID, int $height, int $width) Set the window size of the given window
  * optinos [usehints, sync]
  * @method static void windowUnMap(array $options, string $windowID) Unmap a window, making it no longer appear on your screen
  * options [sync]
@@ -68,10 +68,10 @@ namespace wh1tew0lf;
  * @method static void set_desktop(array $options, int $number) Change the current view to the specified desktop
  * options [relative]
  * @method static string get_desktop() Returns the current desktop in view
- * @method static void set_desktop_for_window(array $options, array $params) Move a window to a different desktop params [windowID, desctopnum]
+ * @method static void set_desktop_for_window(array $options, string $windowID, int $desktop) Move a window to a different desktop
  * @method static void get_desktop_for_window(array $options, string $windowID) Output the desktop currently containing the given window
  * @method static array get_desktop_viewport() Report the current viewport's position
- * @method static void set_desktop_viewport(array $options, array $coordinates) Move the viewport to the given position $coordinates [x, y]
+ * @method static void set_desktop_viewport(array $options, int $x, int $y) Move the viewport to the given position
  * @method static void exec(array $options, string $command) Execute a program. This is often useful when combined with behave_screen_edge to do things like locking your screen
  * options [sync]
  * @method static void sleep(int $seconds) Sleep for a specified period. Fractions of seconds (like 1.3, or 0.4) are valid, here
@@ -145,7 +145,7 @@ class XDoToolAPI {
             array_shift($arguments);
         }
         if (!empty($arguments)) {
-            $params = implode(' ', is_array($arguments[0]) ? $arguments[0] : $arguments);
+            $params = '"' . implode('" "', is_array($arguments[0]) ? $arguments[0] : $arguments) . '"';
             if ('mousemove_relative' == $name) {
                 $params = "-- {$params}";
             }
@@ -170,25 +170,10 @@ class XDoToolAPI {
     }
 
     /**
-     * find the window by name then make it active
-     * @param string $windowName
-     */
-    /*public static function activateWindow($windowName) {
-        self::run('search --onlyvisible --sync --name "' . $windowName . '" windowactivate');
-    }*/
-
-    /**
      * Mouse move to center
      */
-    /*public static function mouseCenter() {
-        self::run('mousemove --polar 0 0');
-    }*/
-
-    /**
-     * Type some text
-     */
-    /*public static function type($text) {
-        self::run("type type --delay 253 --clearmodifiers '{$text}'");
-    }*/
+    public static function mouseCenter() {
+        self::mouseMove(array('polar'), 0, 0);
+    }
 
 }
