@@ -9,3 +9,6 @@ API for automatization with XDoTool. There is not full php wrapper for this tool
 
 ### Docs for XDoTool
 See [here](https://www.semicomplete.com/projects/xdotool/xdotool.xhtml)
+
+### Version
+Current version is 1.0.0

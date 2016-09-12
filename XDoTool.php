@@ -5,6 +5,7 @@ namespace wh1tew0lf;
  * Class XDoTool for simplify to work with xdotool from PHP
  * It can be used dynamically with chains
  * @author Danil Volkov <vlkv.d.a@gmail.com>
+ * @deprecated since 1.0.0
  */
 class XDoTool {
     /**
