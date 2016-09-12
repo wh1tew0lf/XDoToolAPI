@@ -77,6 +77,7 @@ namespace wh1tew0lf;
  * @method static void exec(array|string $options, string $command = false) Execute a program. This is often useful when combined with behave_screen_edge to do things like locking your screen
  * options [sync]
  * @method static void sleep(int $seconds) Sleep for a specified period. Fractions of seconds (like 1.3, or 0.4) are valid, here
+ * @version 1.0.0
  */
 class XDoToolAPI {
     /**
