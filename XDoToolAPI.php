@@ -17,7 +17,7 @@ namespace wh1tew0lf;
  * @method static string getWindowPid(string $windowID) Returns PID by window id (get from getActiveWindow) may be doesn't work
  * @method static array getWindowGeometry(string $windowID) Returns the geometry (location and position) of a window. The values include: x, y, width, height, and screen number
  * @method static array getDisplayGeometry() Returns the screen resolution width and height
- * @method static array|string|int search (array $options, array $params) A powerful function for search window returns array of founded window ids
+ * @method static array|string|int search (array $options, array|string $params) A powerful function for search window returns array of founded window ids
  * Available options for search method [class, classname, maxdepth=N, name, onlyvisible, pid=PID, screen=N, desktop=N, limit=N, title, all, any, sync]
  * @method static string selectWindow() Return window id after click on it @attention it is INTERACTIVE!
  * @method static array help() Shows all available methods
@@ -27,57 +27,57 @@ namespace wh1tew0lf;
  * @method static void behave_screen_edge(array $options, string $edge, string $command) Fire command after move mouse in screen edge [options] <edge> <command>
  * edges can be [left, top-left, top, top-right, right, bottom-left, bottom, bottom-right]
  * options can be [delay=MILLISECONDS, quiesce=MILLISECONDS]
- * @method static void click(array|int $options, int $button = false) Imitate mouse click
+ * @method static void click(array|int $options, int|bool $button = false) Imitate mouse click
  * options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
  * @method static array getMouseLocation() Outputs the x, y, screen, and window id of the mouse cursor
- * @method static void key(array|string $options, array|string $keystroke = false) Imitate keyboard click
+ * @method static void key(array|string $options, array|string|bool $keystroke = false) Imitate keyboard click
  * options [clearmodifiers, delay=MILLISECONDS, window=ID]
- * @method static void keyDown(array|string $options, array|string $keystroke = false) Imitate only key down action
+ * @method static void keyDown(array|string $options, array|string|bool $keystroke = false) Imitate only key down action
  * options [clearmodifiers, delay=MILLISECONDS, window=ID]
- * @method static void keyUp(array|string $options, array|string $keystroke = false) Imitate only key up action
+ * @method static void keyUp(array|string $options, array|string|bool $keystroke = false) Imitate only key up action
  * options [clearmodifiers, delay=MILLISECONDS, window=ID]
- * @method static void mouseDown(array|int $options, int $button = false) Imitate only mouse down action
+ * @method static void mouseDown(array|int $options, int|bool $button = false) Imitate only mouse down action
  * options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
- * @method static void mouseMove(array|int $options, int $x, int $y = false) Move mouse use [x,y] or 'restore',
+ * @method static void mouseMove(array|int $options, int $x, int|bool $y = false) Move mouse use [x,y] or 'restore',
  * options: [window=ID, polar, screen=SCREEN, clearmodifiers, sync]
- * @method static void mouseMove_relative(array|int $options, int $x, int $y = false) Move the mouse x,y pixels relative to the current position of the mouse cursor
+ * @method static void mouseMove_relative(array|int $options, int $x, int|bool $y = false) Move the mouse x,y pixels relative to the current position of the mouse cursor
  * options: [window=ID, polar, screen=SCREEN, clearmodifiers, sync]
- * @method static void mouseUp(array|int $options, int $button = false) Imitate only mouse up action options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
- * @method static void set_window(array|string $options, string $windowID = false) Set properties about a window
+ * @method static void mouseUp(array|int $options, int|bool $button = false) Imitate only mouse up action options [clearmodifiers, repeat=REPEAT, delay=MILLISECONDS, window=ID]
+ * @method static void set_window(array|string $options, string|bool $windowID = false) Set properties about a window
  * options [name=newname, icon-name=newiconname, role=newrole, classname=newclassname, class=newclass, overrideredirect=value]
- * @method static void type(array|string $options, string $text = false) Types as if you had typed it. Supports newlines and tabs (ASCII newline and tab)
+ * @method static void type(array|string $options, string|bool $text = false) Types as if you had typed it. Supports newlines and tabs (ASCII newline and tab)
  * options [window=ID, delay=milliseconds, clearmodifiers]
- * @method static void windowActivate(array|string $options, string $windowID = false) Activate the window. This command is different from windowfocus: if the window is on another desktop, we will switch to that desktop
+ * @method static void windowActivate(array|string $options, string|bool $windowID = false) Activate the window. This command is different from windowfocus: if the window is on another desktop, we will switch to that desktop
  * options [sync]
- * @method static void windowFocus(array|string $options, string $windowID = false) Focus window
+ * @method static void windowFocus(array|string $options, string|bool $windowID = false) Focus window
  * options [sync]
  * @method static void windowKill(string $windowID) Kill a window. This action will destroy the window and kill the client controlling it
- * @method static void windowMap(array|string $options, string $windowID = false) Map a window. In X11 terminology, mapping a window means making it visible on the screen
+ * @method static void windowMap(array|string $options, string|bool $windowID = false) Map a window. In X11 terminology, mapping a window means making it visible on the screen
  * options [sync]
- * @method static void windowMinimize(array|string $options, string $windowID = false) Minimize a window. In X11 terminology, this is called iconify
+ * @method static void windowMinimize(array|string $options, string|bool $windowID = false) Minimize a window. In X11 terminology, this is called iconify
  * options [sync]
- * @method static void windowMove(array|string $options, string $windowID, int $x, int $y = false) Move the window to the given position
+ * @method static void windowMove(array|string $options, string $windowID, int $x, int|bool $y = false) Move the window to the given position
  * optinos [sync, relative]
  * @method static void windowRaise(string $windowID) Raise the window to the top of the stack. This may not work on all window managers
  * @method static void windowReParent(string $childWindowID, string $newParentWindowID) Reparent a window. This moves the source_window to be a child window of destination_window
  * $windows = [child windowID, new parent windowID]
- * @method static void windowSize(array|string $options, string $windowID, int $height, int $width = false) Set the window size of the given window
+ * @method static void windowSize(array|string $options, string $windowID, int $height, int|bool $width = false) Set the window size of the given window
  * optinos [usehints, sync]
- * @method static void windowUnMap(array|string $options, string $windowID = false) Unmap a window, making it no longer appear on your screen
+ * @method static void windowUnMap(array|string $options, string|bool $windowID = false) Unmap a window, making it no longer appear on your screen
  * options [sync]
  * @method static void set_num_desktops(int $number) Changes the number of desktops or workspaces
  * @method static string get_num_desktops() Returns number of desktop
- * @method static void set_desktop(array|int $options, int $number = false) Change the current view to the specified desktop
+ * @method static void set_desktop(array|int $options, int|bool $number = false) Change the current view to the specified desktop
  * options [relative]
  * @method static string get_desktop() Returns the current desktop in view
- * @method static void set_desktop_for_window(array|string $options, string $windowID, int $desktop = false) Move a window to a different desktop
- * @method static void get_desktop_for_window(array|string $options, string $windowID = false) Output the desktop currently containing the given window
+ * @method static void set_desktop_for_window(array|string $options, string $windowID, int|bool $desktop = false) Move a window to a different desktop
+ * @method static string get_desktop_for_window(array|string $options, string|bool $windowID = false) Output the desktop currently containing the given window
  * @method static array get_desktop_viewport() Report the current viewport's position
- * @method static void set_desktop_viewport(array|int $options, int $x, int $y = false) Move the viewport to the given position
- * @method static void exec(array|string $options, string $command = false) Execute a program. This is often useful when combined with behave_screen_edge to do things like locking your screen
+ * @method static void set_desktop_viewport(array|int $options, int $x, int|bool $y = false) Move the viewport to the given position
+ * @method static void exec(array|string $options, string|bool $command = false) Execute a program. This is often useful when combined with behave_screen_edge to do things like locking your screen
  * options [sync]
  * @method static void sleep(int $seconds) Sleep for a specified period. Fractions of seconds (like 1.3, or 0.4) are valid, here
- * @version 1.0.0
+ * @version 1.0.1
  */
 class XDoToolAPI {
     /**
@@ -157,6 +157,7 @@ class XDoToolAPI {
         }
 
         $flags .= in_array($name, self::$shellParse) ? ' --shell' : '';
+        echo "xdotool {$name} {$flags} {$params} " . (self::$debug ? '' : '2>/dev/null') . "\n";
         exec("xdotool {$name} {$flags} {$params} " . (self::$debug ? '' : '2>/dev/null'), $output, $ret_val);
         if ($ret_val) {
             return (int)$ret_val;
